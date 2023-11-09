@@ -26,6 +26,8 @@ n = int(sys.argv[1])
 
 def run_qufit_multicore(fname):
    os.system('python3 '+qu_path+' '+fname+' -m 1 --sampler nestle -i --ncores 1 --nlive 128')
+   os.system('rm -rf '+fname.split('.')[0]+'*nestle')
+   os.system('rm -rf '+fname.split('.')[0]+'*pdf')
 
 
 

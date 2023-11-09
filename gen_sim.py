@@ -2,14 +2,14 @@
 Generate simulated sources that will be run through QU-fitting
 These sources are all Faraday simple
 
-Simulate N (= 1e6?) sets of polarised sources
+Simulate N (= 1e5?) sets of polarised sources
 Each set will be comprised of two sources:
 (a) Random PA0 (as below)
 (b) Fixed PA0 = 90 deg (which will not have angle wrapping issue)
 All other parameters will be fixed between the two soruces
 
 Frequency range of 800-1088 MHz; 1 MHz channels (as per POSSUM Band 1)
-PI: [0.05, 0.5] (arbitrary unit; uniform distribution)
+PI: [0.005, 0.5] (arbitrary unit; uniform distribution)
 PI noise: 0.005 (arbitrary unit; full band)
 PA0: [0, 180) (deg; for source a)
 RM: [-100, +100] (rad m-2)
@@ -22,7 +22,7 @@ import os
 
 ## Initial settings
 np.random.seed(323476)
-N = 1000000
+N = 100000
 freq_array = np.arange(800.e6, 1089.e6, 1.e6)
 c = 299792458.
 l2_array = (c/freq_array)**2
@@ -45,7 +45,7 @@ for i in range(N):
    q_noise = np.random.randn(len(freq_array))*0.005*np.sqrt(len(l2_array))
    u_noise = np.random.randn(len(freq_array))*0.005*np.sqrt(len(l2_array))
    ## Choose the PI, PA0, and RM
-   chosen_pi = (np.random.rand()*0.45)+0.05
+   chosen_pi = (np.random.rand()*0.495)+0.005
    chosen_pa0 = np.random.rand()*180.
    chosen_rm = (np.random.rand()-0.5)*200.
    ## Generate Q, U arrays for both sources
@@ -63,8 +63,8 @@ for i in range(N):
    g1 = open('src_spec/'+str(i)+'a.dat', 'w')
    g2 = open('src_spec/'+str(i)+'b.dat', 'w')
    for j in range(len(freq_array)):
-      g1.write(str(freq_array[j])+'\t'+str(q_a[j])+'\t'+str(u_a[j])+'\t'+str(1.0)+'\t'+str(1.0)+'\n')
-      g2.write(str(freq_array[j])+'\t'+str(q_b[j])+'\t'+str(u_b[j])+'\t'+str(1.0)+'\t'+str(1.0)+'\n')
+      g1.write(str(freq_array[j])+'\t'+str(q_a[j])+'\t'+str(u_a[j])+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\n')
+      g2.write(str(freq_array[j])+'\t'+str(q_b[j])+'\t'+str(u_b[j])+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\n')
 
 
 
