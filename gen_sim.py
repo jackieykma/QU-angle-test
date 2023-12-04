@@ -30,8 +30,10 @@ l2_array = (c/freq_array)**2
 
 
 ## Create directory to store all source files
-os.system('rm -rf src_spec')
-os.system('mkdir src_spec')
+os.system('rm -rf src_spec_old')
+os.system('rm -rf src_spec_new')
+os.system('mkdir src_spec_old')
+os.system('mkdir src_spec_new')
 ## Create catalogue file to store "ground truth"
 f = open('ground_truth.csv', 'w')
 f.write('srcname,PI (arb. unit),PA0 (deg),RM (radm-2)\n')
@@ -60,11 +62,15 @@ for i in range(N):
    f.write(str(i)+'a,'+str(chosen_pi)+','+str(chosen_pa0)+','+str(chosen_rm)+'\n')
    f.write(str(i)+'b,'+str(chosen_pi)+','+str(90.0)+','+str(chosen_rm)+'\n')
    ## Write out the source spectrum files
-   g1 = open('src_spec/'+str(i)+'a.dat', 'w')
-   g2 = open('src_spec/'+str(i)+'b.dat', 'w')
+   g1 = open('src_spec_old/'+str(i)+'a.dat', 'w')
+   g2 = open('src_spec_old/'+str(i)+'b.dat', 'w')
    for j in range(len(freq_array)):
       g1.write(str(freq_array[j])+'\t'+str(q_a[j])+'\t'+str(u_a[j])+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\n')
       g2.write(str(freq_array[j])+'\t'+str(q_b[j])+'\t'+str(u_b[j])+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\t'+str(0.005*np.sqrt(len(l2_array)))+'\n')
+   g1.close()
+   g2.close()
+   os.system('cp src_spec_old/'+str(i)+'a.dat src_spec_new/'+str(i)+'a.dat')
+   os.system('cp src_spec_old/'+str(i)+'b.dat src_spec_new/'+str(i)+'b.dat')
 
 
 

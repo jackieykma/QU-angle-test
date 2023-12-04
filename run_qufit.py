@@ -14,13 +14,17 @@ from multiprocessing import Pool
 
 
 
-qu_path = '~/scripts/RM-Tools/RMtools_1D/do_QUfit_1D_mnest.py'
-
-if len(sys.argv) != 2:
-   raise Exception('This script takes exactly one input argument!')
+if len(sys.argv) != 3:
+   raise Exception('This script takes exactly two input argument!')
 
 ## Unpack the input arguments:
 n = int(sys.argv[1])
+if sys.argv[2] == 'old':
+   qu_path = '~/scripts/RM-Tools/RMtools_1D/do_QUfit_1D_mnest.py'
+elif sys.argv[2] == 'new':
+   qu_path = '~/scripts/RM-Tools_PA-fix-new/RMtools_1D/do_QUfit_1D_mnest.py'
+else:
+   raise Exception('Either choose new or old RM-Tools!')
 
 
 
@@ -32,7 +36,7 @@ def run_qufit_multicore(fname):
 
 
 ## Load in the full source list, and determine which ones to run
-full_flist = glob.glob('src_spec/*dat')
+full_flist = glob.glob('src_spec_'+sys.argv[2]+'/*dat')
 full_flist.sort()
 i_list = np.arange(int((len(full_flist)/50)*n), int((len(full_flist)/50)*(n+1)), 1)
 ## Start running
