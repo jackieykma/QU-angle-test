@@ -14,8 +14,8 @@ import os
 
 
 ## Load in ground truth, and the QU-fitting output file list
-truth_table = at.Table.read('ground_truth_new.csv')
-fa_list = glob.glob('src_spec_new/*a_m1_nestle.json')
+truth_table = at.Table.read('ground_truth.csv')
+fa_list = glob.glob('src_spec_old/*a_m1_nestle.json')
 
 ## Define lists to store the results
 fa_pa = []
